@@ -356,17 +356,15 @@ lets make one ourselves.
 
 ### Creating a Blog
 
--   Start postgres with `psql`
 -   Run `rails-api new blog_app --skip-javascript --skip-sprockets --skip-turbolinks
 --skip-test-unit --database=postgresql`
 -   Scaffold our User, Posts and Comments
-   -`bundle exec rails-api g scaffold user email:string password:string`
-   -`bundle exec rails-api g scaffold post title:string body:text user:references`
-   -`bundle exec rails-api g scaffold comment body:text user:references post:references`
+  - `bundle exec rails-api g scaffold user email:string password:string`
+  - `bundle exec rails-api g scaffold post title:string body:text user:references`
+  - `bundle exec rails-api g scaffold comment body:text user:references post:references`
 -   Now lets create and migrate our database by typing in:
-    -`bundle exec rake db:create`
-    -`bundle exec rake db:migrate`
-    -`bundle exec rake db:example`
+  - `bundle exec rake db:create`
+  - `bundle exec rake db:migrate`
 -   Lets start our server! type: `bundle exec rails server`, some people may have
 this aliased as as `bundle exec rails s` or `bundle exec rails serve`
 -   Now navigate to `localhost:3000/users` (empty brackets is a good sign)
@@ -404,7 +402,8 @@ class Post < ActiveRecord::Base
 end
 ```
 
--   Now seed your database by running `rake db:seed`
+-   Now seed your database by running `bundle exec rake db:example`
+-   Or  `bundle exec rake db:nuke_pave`
 -   Try navigating to `localhost:3000/users` or `/posts` or `/comments`. You should
 see the JSON you seeded. Try making a curl request to send JSON to your API:
 
