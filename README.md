@@ -1,268 +1,264 @@
 [![General Assembly Logo](https://camo.githubusercontent.com/1a91b05b8f4d44b5bbfb83abac2b0996d8e26c92/687474703a2f2f692e696d6775722e636f6d2f6b6538555354712e706e67)](https://generalassemb.ly/education/web-development-immersive)
 
-# rails-api-template
+# Rails API Single Resource
 
-A template for starting projects with `rails-api`. Includes authentication.
+## Objectives
 
-At the beginning of each cohort, update the versions in [`Gemfile`](Gemfile).
+By the end of this lesson, students should be able to:
 
-## Dependencies
+-   ?
 
-Install with `bundle install`.
+## Preparation
 
+1.  [Fork and clone](https://github.com/ga-wdi-boston/meta/wiki/ForkAndClone)
+    this repository.
+
+## Prerequisites
+
+-   Ruby basics
+-   Ruby objects and classes
+-   HTTP
 -   [`rails-api`](https://github.com/rails-api/rails-api)
 -   [`rails`](https://github.com/rails/rails)
 -   [`active_model_serializers`](https://github.com/rails-api/active_model_serializers)
 -   [`ruby`](https://www.ruby-lang.org/en/)
 -   [`postgres`](http://www.postgresql.org)
 
-Until Rails 5 is released, this template should follow the most recent released
-version of Rails 4, as well as track `master` branches for `rails-api` and
-`active_model_serializers`.
+This is intended for developers to follow along as I build a library API. You
+may follow along as I code but I will not slow down or share this code. Later
+in this training we will have a code along.
 
-## Installation
+## Status Check
 
-1.  [Download](../../archive/master.zip) this template.
-1.  Unzip and rename the template directory.
-1.  Empty [`README.md`](README.md) and fill with your own content.
-1.  Move into the new project and `git init`.
-1.  Install dependencies with `bundle install`.
-1.  Rename your app module in `config/application.rb` (change
-    `RailsApiTemplate`).
-1.  Rename your project database in `config/database.yml` (change
-    `'rails-api-template'`).
-1.  Create a `.env` for sensitive settings (`touch .env`).
-1.  Generate new `development` and `test` secrets (`bundle exec rake secret`).
-1.  Store them in `.env` with keys `SECRET_KEY_BASE_<DEVELOPMENT|TEST>`
-    respectively.
-1.  In order to make requests from your deployed client application, you will
-    need to set `CLIENT_ORIGIN` in the environment of the production API (e.g.
-    `https://<github-username>.github.io`).
-1.  Setup your database with `bin/rake db:nuke_pave` or `bundle exec rake
-    db:nuke_pave`.
-1.  Run the API server with `bin/rails server` or `bundle exec rails server`.
+These will be frequent. As developers we want to be meticulous and make sure
+we're getting errors where expected as we build our API.
 
-## Structure
+## Demo: [library-app](https://github.com/ga-wdi-boston/rails-api-library-demo)
 
-This template follows the standard project structure in Rails 4.
+## Code-Along: [clinic-app](https://github.com/ga-wdi-boston/rails-api-clinic-code-along)
 
-`curl` command scripts are stored in [`scripts`](scripts) with names that
-correspond to API actions.
+## Lab: [cookbook-app](https://github.com/ga-wdi-boston/rails-api-cookbook-lab)
 
-User authentication is built-in.
+## Add Secrets
 
-## Tasks
+-  Follow the instructions in that file to set a **different** key for `development` and `test`.
+-  *Do not touch `production`*
 
-Developers should run these often!
+## Status Check
 
--   `rake routes` lists the endpoints available in your API.
--   `rake test` runs automated tests.
--   `rails console` opens a REPL that pre-loads the API.
--   `rails db` opens your database client and loads the correct database.
--   `rails server` starts the API.
--   `scripts/*.sh` run various `curl` commands to test the API. See below.
+-  Navigate to `localhost:3000` in chrome.
+  -  Do you get a `welcome aboard` page?
+  -  Check your server, are there any error messages?
 
-<!-- TODO -   `rake nag` checks your code style. -->
-<!-- TODO -   `rake lint` checks your code for syntax errors. -->
+## Routing
 
-## API
+In order for our API to respond to GET requests at the `/books` URL,
+we'll need to create a Route that specifies what to do
+when that type of request comes in.
 
-Use this as the basis for your own API documentation. Add a new third-level
-heading for your custom entities, and follow the pattern provided for the
-built-in user authentication documentation.
 
-Scripts are included in [`scripts`](scripts) to test built-in actions. Add your
-own scripts to test your custom API. As an alternative, you can write automated
-tests in RSpec to test your API.
-
-### Authentication
-
-| Verb   | URI Pattern            | Controller#Action |
-|--------|------------------------|-------------------|
-| POST   | `/sign-up`             | `users#signup`    |
-| POST   | `/sign-in`             | `users#signin`    |
-| PATCH  | `/change-password/:id` | `users#changepw`  |
-| DELETE | `/sign-out/:id`        | `users#signout`   |
-
-#### POST /sign-up
-
-Request:
-
-```sh
-curl --include --request POST http://localhost:3000/sign-up \
-  --header "Content-Type: application/json" \
-  --data '{
-    "credentials": {
-      "email": "an@example.email",
-      "password": "an example password",
-      "password_confirmation": "an example password"
-    }
-  }'
+```ruby
+get '/books', to: 'books#index'
 ```
 
-```sh
-scripts/sign-up.sh
-```
+This tells Rails,
+"When you receive a GET request at the URL path `/books`,
+invoke the `index` method specified in the BooksController class."
 
-Response:
+## Status Check
 
-```md
-HTTP/1.1 201 Created
-Content-Type: application/json; charset=utf-8
+We changed a small bit of code, let's see if anything has changed.
 
-{
-  "user": {
-    "id": 1,
-    "email": "an@example.email"
-  }
-}
-```
+-  Navigate to `localhost:3000` in chrome.
 
-#### POST /sign-in
+## Controller
 
-Request:
+We haven't _defined_ a BooksController class yet,
+so if we try to access `localhost:3000/books`, we'll get another error.
 
-```sh
-curl --include --request POST http://localhost:3000/sign-in \
-  --header "Content-Type: application/json" \
-  --data '{
-    "credentials": {
-      "email": "an@example.email",
-      "password": "an example password"
-    }
-  }'
-```
+The purpose of a controller is to handle requests of some particular type.
+In this case, we want to create a new controller called `BooksController`
+for responding to requests about a resource called 'Books'.
 
-```sh
-scripts/sign-in.sh
-```
+Rails has a number of generator tools
+for creating boilerplate files very quickly.
 
-Response:
+Not all controllers handle CRUD,
+but those that do tend to follow the following convention for their routes
+and controller actions:
 
-```md
-HTTP/1.1 200 OK
-Content-Type: application/json; charset=utf-8
+| Action  | What It Does                             | HTTP Verb | URL           |
+|:-------:|:----------------------------------------:|:---------:|:-------------:|
+| index   | Return a list of all resource instances. | GET       | `/books`     |
+| create  | Create a new instance of a resource.     | POST      | `/books`     |
+| show    | Return a single instance of a resource.  | GET       | `/books/:id` |
+| update  | Update a single instance of a resource.  | PATCH     | `/books/:id` |
+| destroy | Destroy a single instance of a resource. | DELETE    | `/books/:id` |
 
-{
-  "user": {
-    "id": 1,
-    "email": "an@example.email",
-    "token": "33ad6372f795694b333ec5f329ebeaaa"
-  }
-}
-```
+Let's add an `index` method to `BooksController`.
 
-#### PATCH /change-password/:id
+## Status Check
 
-Request:
+Let's navigate to `localhost:3000/books` and see if our error has changed.
 
-```sh
-curl --include --request PATCH http://localhost:3000/change-password/$ID \
-  --header "Authorization: Token token=$TOKEN" \
-  --header "Content-Type: application/json" \
-  --data '{
-    "passwords": {
-      "old": "an example password",
-      "new": "super sekrit"
-    }
-  }'
-```
+Let's check out server and see if our error message has changed.
 
-```sh
-ID=1 TOKEN=33ad6372f795694b333ec5f329ebeaaa scripts/change-password.sh
-```
+## Model
 
-Response:
+Let's generate a model.
 
-```md
-HTTP/1.1 204 No Content
-```
+-  The g stands for generate, Rails does a lot of work for us.
 
-#### DELETE /sign-out/:id
+-  Let's look at what was generated.
 
-Request:
+## Status Check
 
-```sh
-curl --include --request DELETE http://localhost:3000/sign-out/$ID \
-  --header "Authorization: Token token=$TOKEN"
-```
+Let's navigate to `localhost:3000/books` and see if our error has changed.
 
-```sh
-ID=1 TOKEN=33ad6372f795694b333ec5f329ebeaaa scripts/sign-out.sh
-```
+Let's check out server and see if our error message has changed.
 
-Response:
+## Migrations
 
-```md
-HTTP/1.1 204 No Content
-```
+Let's migrate.
 
-### Users
+Let's navigate to `localhost:3000/books` and see if our error has changed.
 
-| Verb | URI Pattern | Controller#Action |
-|------|-------------|-------------------|
-| GET  | `/users`    | `users#index`     |
-| GET  | `/users/1`  | `users#show`      |
+We can see what appears to be JSON, but there are no books! That's because we
+have not added any.
 
-#### GET /users
+## Active Record
 
-Request:
+First let's enter our `rails console` so we can make use of our models. This
+lets us interact with Rails from the command line.
 
-```sh
-curl --include --request GET http://localhost:3000/users \
-  --header "Authorization: Token token=$TOKEN"
-```
+### What about Curl and Ajax
 
-```sh
-TOKEN=33ad6372f795694b333ec5f329ebeaaa scripts/users.sh
-```
+If we wanted to use Ajax or curl to `create`, `read`, `update` or `destroy` we
+will need repeat the process that we used for index.
 
-Response:
+*Index is one of the (usually) two controller actions that make up `READ` you*
+*will need another controller action if you want top show just one item*
 
-```md
-HTTP/1.1 200 OK
-Content-Type: application/json; charset=utf-8
+### Routing the Rest of CRUD
 
-{
-  "users": [
-    {
-      "id": 2,
-      "email": "another@example.email"
-    },
-    {
-      "id": 1,
-      "email": "an@example.email"
-    }
-  ]
-}
-```
+Remeber how when we first tried to display our JSON on `localhost:3000` we had
+to create a route in `config/routes.rb`?
 
-#### GET /users/:id
+-  This is what in turn triggered the proper controller and controller action.
+-  Which in turn interacted with the model
+-  Which in turn interacted with the database
+-  This cycle then sends information back the way which it came (in this case).
 
-Request:
+We already did the inital hard work of creating our Books Controller and our
+Book Model. We tok care of the database too, so all we have left to do is:
 
-```sh
-curl --include --request GET http://localhost:3000/users/$ID \
-  --header "Authorization: Token token=$TOKEN"
-```
+1.   Add proper routes which trigger the correct controller/controller action
+1.   Add the corresponding controller action
 
-```sh
-ID=2 TOKEN=33ad6372f795694b333ec5f329ebeaaa scripts/user.sh
-```
+`:id` is a dynamic segment, it tells rails to expect a piece of information
+which goes inside of a *params hash* which will be accessible in the controller.
 
-Response:
+*Remember how I said Rails does a lot for us*
 
-```md
-HTTP/1.1 200 OK
-Content-Type: application/json; charset=utf-8
+It's crucial that we use and `:id` dynamic segment otherwise when we make our
+show, patch, and delete requests Rails won't know which item in the data store
+you're referring to.
 
-{
-  "user": {
-    "id": 2,
-    "email": "another@example.email"
-  }
-}
-```
+Developers often find shortcuts for things they have to do repeatedly.
+
+There is a shorthand way of writing all the routes listed above.
+
+We have our routes, now it's time to create the controlled actions that
+correspond to those routes.
+
+### Controller CRUD
+
+We can already get a list of all of our books, but lets write the controller
+action that returns a single book.
+
+Let's test it out `localhost:3000/books/1`.
+
+Before we go further we should refactor our controller a bit to make it more
+secure and DRY.
+
+1. First We're going to set a `before_action` right below where we open up the
+`BooksController`.
+
+Then we have to create the `set_book` method which will just define the instance
+variable `@book` as the book that corresponds to the dynamic id passed in,
+in the route.
+
+2. Next we want to create a method that will only allow / permit certain keys
+(from the key/value pairs being passed in from `create` and `update` requests).
+
+This requires a root key of `book` and will permit the client to send a title
+and author as well. *We could also require title/author if desired*
+
+Now that we are secure and we can set a single book, we need to finish our CRUD
+actions with `create`, `update` and `delete`
+
+One last thing, our helper methods, like `set_book` and security methods like
+`book_params` shouldn't be public or able to be accessed in any way, so we're
+going to make them private by adding a line right before the final `end` that
+closes our `books_controller`.
+
+### Status Check
+
+Let's test the API by writing the curl request to `create`, `update` and
+`destroy` a book.
+
+### A Note on Best Practices
+
+While it is important that you understand how to write a controller and what
+each part does as mentioned earlier Rails does a fair amount of work for us.
+
+There is a command that will *generate the model, controller and routes for us.*
+It will also create all of the standard crude actions which we wrote by hand.
+This command is `rails g scaffold` to create exactly what we wrote you would
+type `rails g scaffold book title:string author:string`
+
+Different developers have different opinions on using scaffolding, some think
+it's lazy and would rather be sure about everything they are putting into their
+code.  Others think it's the ultimate tool for productivity and prevent bugs,
+errors and typos.
+
+*I would recommend using scaffolding.*
+
+### Migrations
+
+What if we've gotten this far and realized that not only do books have an
+`author` and `title`, but we also want to store some `secret_info`? We don't
+have to start from scratch, we just have to change out model and tell it to
+update the date store accordingly.  We do this with something called a `migration`.
+
+Let's check `localhost:3000/books`, did anything change?
+
+### Serializers
+
+Let's say that secret info was something that was useful for us, like a password
+or SSN or something valuable. We don't want to let anyone who makes a `GET`
+request to see that valuable info. That's what serializers are for.
+
+It's easy to think of them as JSON formatters. They control what information can
+is sent to the client.
+
+Generate a serializer.
+
+Check `localhost:3000/books`, did anything change?
+
+Let's add some attributes that we want to allow the client to see in
+`serializers/book_serializer.rb`
+
+### Done
+
+Good job!
+
+## Additional Resource
+
+-   **[RailsGuides](http://guides.rubyonrails.org/getting_started.html)**
+-   **[Official Rails Documentation](http://rubyonrails.org/documentation/)**
+-   **[MVC](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller)**
+-   **[JSON API](https://thesocietea.org/2015/02/building-a-json-api-with-rails-part-1-getting-started/)**
 
 ## [License](LICENSE)
 
