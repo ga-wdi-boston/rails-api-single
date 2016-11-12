@@ -6,17 +6,10 @@
 
 By the end of this lesson, students should be able to:
 
--   Explain why a back-end is necessary.
--   Build a complete server side api in Rails
--   Explain the process flow from Client through Database and back
--   List some of the responsibilities of a typical back-end, and identify which
-components within (R)MVC map to those responsibilities.
--   Map (R)MVC roles to specific components of Rails.
--   Indicate where different types of files can be found within a Rails
-application.
 -   Bear witness to the creation of an API.
 -   Follow along in the creation of an API.
--   Create of an API.
+-   Build a complete server side API in Rails
+-   Create a model with full CRUD capability
 
 ## Preparation
 
