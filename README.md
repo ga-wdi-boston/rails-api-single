@@ -644,7 +644,7 @@ Let's add an `index` method to `PatientsController`.
 ```ruby
 class PatientsController < ApplicationController
   def index
-    @patients = Patients.all
+    @patients = Patient.all
 
     render json: @patients
   end
