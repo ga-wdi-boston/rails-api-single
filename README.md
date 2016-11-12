@@ -892,6 +892,7 @@ For `update` let's add:
 def update
   if @patient.update(patient_params)
     head :no_content
+    render json: @patient
   else
     render json: @patient.errors, status: :unprocessable_entity
   end
