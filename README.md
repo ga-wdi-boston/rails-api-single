@@ -407,7 +407,6 @@ For `update` let's add:
 def update
   if @book.update(book_params)
     head :no_content
-    render json: @book
   else
     render json: @book.errors, status: :unprocessable_entity
   end
@@ -883,7 +882,6 @@ For `update` let's add:
 def update
   if @patient.update(patient_params)
     head :no_content
-    render json: @patient
   else
     render json: @patient.errors, status: :unprocessable_entity
   end
