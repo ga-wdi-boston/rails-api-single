@@ -25,11 +25,9 @@ application.
 
 ## Prerequisites
 
--   Ruby basics
--   Ruby objects and classes
--   HTTP
 -   [`rails-api`](https://github.com/rails-api/rails-api)
--   [`rails`](https://github.com/rails/rails)
+
+## Useful Documentation
 -   [`active_model_serializers`](https://github.com/rails-api/active_model_serializers)
 -   [`ruby`](https://www.ruby-lang.org/en/)
 -   [`postgres`](http://www.postgresql.org)
