@@ -106,8 +106,14 @@ to create a Route that specifies what to do when that type of request comes in.
 
 Add the following code to `config/routes.rb`:
 
+Long-hand (used for custom routes)
 ```ruby
 get '/books', to: 'books#index'
+```
+
+Short-hand
+```ruby
+resources :books, only: [:index]
 ```
 
 This tells Rails, "When you receive a GET request at the URL path `/books`,
@@ -131,8 +137,8 @@ this case, we want to create a new controller called `BooksController` for
 responding to requests about a resource called 'Books'.
 
 Rails has a number of generator tools for creating boilerplate files very
-quickly. To spin up a new controller, we can just run `rails g controller books
---skip-template-engine`.
+quickly. To spin up a new controller, we can just run `bin/rails generate
+controller books`.
 
 This will automatically create a new file in `app/controllers` called
 `books_controller.rb`, with the following content:
