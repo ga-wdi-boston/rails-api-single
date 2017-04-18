@@ -41,7 +41,7 @@ These API repositories contain a few important branches:
 
 ## Objectives
 
-By the end of this lesson, students should be able to:
+By the end of this lesson, developers should be able to:
 
 -   Follow along in the creation of an API.
 -   Build a complete server side API in Rails
