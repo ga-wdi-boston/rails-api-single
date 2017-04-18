@@ -58,6 +58,10 @@ By the end of this lesson, developers should be able to:
 1.  Follow preparation instructions in [Cookbook
     API](https://github.com/ga-wdi-boston/rails-api-cookbook-lab)
 
+1.  Open each in its own terminal window with two tabs -- one tab for the
+server, one for command line.
+
+
 ## Useful Documentation
 
 -   [`active_model_serializers`](https://github.com/rails-api/active_model_serializers)
