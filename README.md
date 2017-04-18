@@ -41,7 +41,7 @@ These API repositories contain a few important branches:
 
 ## Objectives
 
-By the end of this lesson, students should be able to:
+By the end of this lesson, developers should be able to:
 
 -   Follow along in the creation of an API.
 -   Build a complete server side API in Rails
@@ -57,6 +57,10 @@ By the end of this lesson, students should be able to:
 
 1.  Follow preparation instructions in [Cookbook
     API](https://github.com/ga-wdi-boston/rails-api-cookbook-lab)
+
+1.  Open each in its own terminal window with two tabs -- one tab for the
+server, one for command line.
+
 
 ## Useful Documentation
 
@@ -102,8 +106,14 @@ to create a Route that specifies what to do when that type of request comes in.
 
 Add the following code to `config/routes.rb`:
 
+Long-hand (used for custom routes)
 ```ruby
 get '/books', to: 'books#index'
+```
+
+Short-hand
+```ruby
+resources :books, only: [:index]
 ```
 
 This tells Rails, "When you receive a GET request at the URL path `/books`,
@@ -127,8 +137,8 @@ this case, we want to create a new controller called `BooksController` for
 responding to requests about a resource called 'Books'.
 
 Rails has a number of generator tools for creating boilerplate files very
-quickly. To spin up a new controller, we can just run `rails g controller books
---skip-template-engine`.
+quickly. To spin up a new controller, we can just run `bin/rails generate
+controller books`.
 
 This will automatically create a new file in `app/controllers` called
 `books_controller.rb`, with the following content:
@@ -266,9 +276,9 @@ write example data so you can test your own APIs.
 ## Demo: `BooksController#update`
 ## Code-along: `PatientsController#update`
 ## Lab: `IngredientsController#update`
-## Demo: `BooksController#patch`
-## Code-along: `PatientsController#patch`
-## Lab: `IngredientsController#patch`
+## Demo: `BooksController#create`
+## Code-along: `PatientsController#create`
+## Lab: `IngredientsController#create`
 
 ## Tips
 
