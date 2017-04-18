@@ -276,9 +276,9 @@ write example data so you can test your own APIs.
 ## Demo: `BooksController#update`
 ## Code-along: `PatientsController#update`
 ## Lab: `IngredientsController#update`
-## Demo: `BooksController#patch`
-## Code-along: `PatientsController#patch`
-## Lab: `IngredientsController#patch`
+## Demo: `BooksController#create`
+## Code-along: `PatientsController#create`
+## Lab: `IngredientsController#create`
 
 ## Tips
 
